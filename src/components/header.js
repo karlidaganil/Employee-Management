@@ -4,7 +4,7 @@ export class Header extends LitElement {
   render() {
     return html`
       <header style="background-color: #000; color: #fff;">
-      <span>adsa</span>
+      <span>HEADER 1</span>
       </header>
     `;
   }
