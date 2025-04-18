@@ -1,6 +1,4 @@
-import { LitElement, css, html } from "lit";
-import litLogo from "./assets/lit.svg";
-import viteLogo from "/vite.svg";
+import { LitElement, html } from "lit";
 import "./components/header";
 
 export class MyElement extends LitElement {
