@@ -12,11 +12,6 @@ export class MyElement extends LitElement {
     super();
     this.docsHint = "Click on the Vite and Lit logos to learn more";
     this.count = 0;
-    this.data = [
-      { name: "John", age: 30, email: "john@example.com" },
-      { name: "Jane", age: 25, email: "jane@example.com" },
-      { name: "Jim", age: 35, email: "jim@example.com" },
-    ];
   }
 
   _onClick() {
@@ -27,7 +22,13 @@ export class MyElement extends LitElement {
     return html`
       <div>
         <header-component></header-component>
-        <table-component></table-component>
+        <table-component
+          .data=${[
+            { name: "John", age: 30, email: "john@example.com" },
+            { name: "Jane", age: 25, email: "jane@example.com" },
+            { name: "Jim", age: 35, email: "jim@example.com" },
+          ]}
+        ></table-component>
       </div>
     `;
   }
