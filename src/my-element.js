@@ -24,9 +24,33 @@ export class MyElement extends LitElement {
         <header-component></header-component>
         <table-component
           .data=${[
-            { name: "John", age: 30, email: "john@example.com" },
-            { name: "Jane", age: 25, email: "jane@example.com" },
-            { name: "Jim", age: 35, email: "jim@example.com" },
+            {
+              firstName: "John",
+              lastName: "Doe",
+              dateOfEmployment: "2020-01-01",
+              dateOfBirth: "1990-01-01",
+              phone: "1234567890",
+              department: "Sales",
+              position: "Sales Manager",
+            },
+            {
+              firstName: "Jane",
+              lastName: "Doe",
+              dateOfEmployment: "2020-01-01",
+              dateOfBirth: "1995-02-01",
+              phone: "1234567890",
+              department: "Sales",
+              position: "Sales Manager",
+            },
+            {
+              firstName: "Jim",
+              lastName: "Doe",
+              dateOfEmployment: "2020-01-01",
+              dateOfBirth: "1990-01-01",
+              phone: "1234567890",
+              department: "Sales",
+              position: "Sales Manager",
+            },
           ]}
         ></table-component>
       </div>
