@@ -10,4 +10,4 @@ export class Header extends LitElement {
   }
 }
 
-window.customElements.define("header-component", Header);
+customElements.define("header-component", Header);

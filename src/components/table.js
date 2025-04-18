@@ -130,4 +130,4 @@ export class Table extends LitElement {
   }
 }
 
-window.customElements.define("table-component", Table);
+customElements.define("table-component", Table);
