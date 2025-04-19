@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import "./header/header";
 import "./table";
+import "./list";
 import { useEmployeeStore } from "../store";
 import listIcon from "../assets/list-icon.png";
 import tableIcon from "../assets/table-icon.png";
@@ -15,6 +16,7 @@ export class Home extends LitElement {
   constructor() {
     super();
     this.employees = useEmployeeStore.getState().employees;
+    this.viewType = "table";
 
     useEmployeeStore.subscribe((state) => {
       this.employees = state.employees;
@@ -31,13 +33,29 @@ export class Home extends LitElement {
           <h1 style="font-size: 20px; font-weight: 600; margin-top: 25px;">
             Employee List
           </h1>
-          <div style="display: flex; gap: 10px;">
-            <img src=${listIcon} style="width: 20px; height: 20px;" />
-            <img src=${tableIcon} style="width: 20px; height: 20px;" />
+          <div style="display: flex; gap: 10px; cursor: pointer;">
+            <img
+              src=${listIcon}
+              style="width: 20px; height: 20px; ${this.viewType === "list" ? "opacity: 1;" : "opacity: 0.5;"}"
+              @click=${() => {
+                this.viewType = "list";
+                this.requestUpdate();
+              }}
+            />
+            <img
+              src=${tableIcon}
+              style="width: 20px; height: 20px; ${this.viewType === "table" ? "opacity: 1;" : "opacity: 0.5;"}"
+              @click=${() => {
+                this.viewType = "table";
+                this.requestUpdate();
+              }}
+            />
           </div>
         </div>
         <div style="padding: 0px 20px;">
-          <table-component .data=${this.employees}></table-component>
+          ${this.viewType === "list"
+            ? html`<list-component></list-component>`
+            : html`<table-component .data=${this.employees}></table-component>`}
         </div>
       </div>
     `;
