@@ -23,7 +23,13 @@ export class Home extends LitElement {
     return html`
       <div>
         <header-component></header-component>
-        <h1>Employees</h1>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0px 20px; color: orange;">
+          <h1>Employee List</h1>
+          <div>
+            <span>List Icon</span>
+            <span>Table Icon</span>
+          </div>
+        </div>
         <div style="padding: 0px 20px;">
           <table-component .data=${this.employees}></table-component>
         </div>
