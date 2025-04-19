@@ -27,28 +27,75 @@ export class Table extends LitElement {
       table {
         width: 100%;
         border-collapse: collapse;
+        border-spacing: 0;
         margin-top: 1rem;
+        background-color: red;
       }
+
+      thead tr {
+        background-color: white;
+      }
+
+      tbody tr {
+        background-color: white;
+      }
+
+      tbody tr:not(:last-child) {
+        border-bottom: 1px solid #f5f7f9;
+      }
+
       th,
       td {
-        padding: 8px;
+        padding: 16px 8px;
         text-align: left;
-        border: 1px solid #ddd;
+        border: none;
+        color: #666;
+        font-size: 14px;
       }
+
       th {
-        background-color: #f5f5f5;
+        font-weight: 600;
+        color: #ff6600;
+        background: none;
       }
+
       tr:hover {
-        background-color: #f9f9f9;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
       }
+
       .checkbox-cell {
         width: 40px;
         text-align: center;
       }
+
       input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
         width: 18px;
         height: 18px;
+        border: 2px solid #ddd;
+        border-radius: 4px;
         cursor: pointer;
+        position: relative;
+        transition: all 0.2s ease;
+      }
+
+      input[type="checkbox"]:checked {
+        background-color: #ff5722;
+        border-color: #ff5722;
+      }
+
+      input[type="checkbox"]:checked::after {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        width: 4px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
       }
 
       .pagination {
@@ -66,6 +113,11 @@ export class Table extends LitElement {
         cursor: pointer;
         color: #666;
         border-radius: 4px;
+        min-width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .pagination button:hover {
@@ -85,6 +137,24 @@ export class Table extends LitElement {
 
       .pagination .ellipsis {
         padding: 8px 12px;
+        color: #666;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .edit-icon, .delete-icon {
+        cursor: pointer;
+        color: #ff5722;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+      }
+
+      .edit-icon:hover, .delete-icon:hover {
+        opacity: 1;
       }
     `;
   }
@@ -234,6 +304,7 @@ export class Table extends LitElement {
               <th>Email</th>
               <th>Department</th>
               <th>Position</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -247,14 +318,20 @@ export class Table extends LitElement {
                       @change=${(e) => this.handleRowSelect(index, e)}
                     />
                   </td>
-                  <td>${row.firstName}</td>
-                  <td>${row.lastName}</td>
+                  <td style="font-weight: 600;">${row.firstName}</td>
+                  <td style="font-weight: 600;">${row.lastName}</td>
                   <td>${row.dateOfEmployment}</td>
                   <td>${row.dateOfBirth}</td>
                   <td>${row.phone}</td>
                   <td>${row.email}</td>
                   <td>${row.department}</td>
                   <td>${row.position}</td>
+                  <td>
+                    <div class="actions">
+                      <span class="edit-icon">✏️</span>
+                      <span class="delete-icon">🗑️</span>
+                    </div>
+                  </td>
                 </tr>
               `
             )}

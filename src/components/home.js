@@ -28,7 +28,9 @@ export class Home extends LitElement {
         <div
           style="display: flex; justify-content: space-between; align-items: center; padding: 0px 20px; color: #FF6600;"
         >
-          <h1>Employee List</h1>
+          <h1 style="font-size: 20px; font-weight: 600; margin-top: 25px;">
+            Employee List
+          </h1>
           <div style="display: flex; gap: 10px;">
             <img src=${listIcon} style="width: 20px; height: 20px;" />
             <img src=${tableIcon} style="width: 20px; height: 20px;" />
