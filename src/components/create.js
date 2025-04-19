@@ -140,6 +140,13 @@ export class Create extends LitElement {
     e.preventDefault();
     const formData = new FormData(e.target);
     const employee = Object.fromEntries(formData);
+
+    const phoneRegex = /^(?:\+90|0)?5\d{9}$/;
+    if (!phoneRegex.test(employee.phone.replace(/\s/g, ''))) {
+      alert(t('invalid-phone-format'));
+      return;
+    }
+
     useEmployeeStore.getState().addEmployee(employee);
     Router.go("/");
   }
@@ -164,7 +171,12 @@ export class Create extends LitElement {
             </div>
             <div class="input-group">
               <label class="label">${t('phone')}</label>
-              <input type="tel" name="phone" required />
+              <input 
+                type="tel" 
+                name="phone" 
+                placeholder="05383976177"
+                required 
+              />
             </div>
             <div class="input-group">
               <label class="label">${t('department')}</label>
