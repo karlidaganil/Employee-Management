@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit";
+import { t } from "../locales/i18n.js";
 
 export class Table extends LitElement {
   static get properties() {
@@ -9,6 +10,7 @@ export class Table extends LitElement {
       currentPage: { type: Number, state: true },
       itemsPerPage: { type: Number },
       totalPages: { type: Number, state: true },
+      lang: { type: String, reflect: true },
     };
   }
 
@@ -20,6 +22,17 @@ export class Table extends LitElement {
     this.currentPage = 1;
     this.itemsPerPage = 10;
     this.totalPages = 1;
+    this.lang = document.documentElement.lang || 'en';
+    
+    window.addEventListener('language-changed', (e) => {
+      this.lang = e.detail.language;
+      this.requestUpdate();
+    });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener('language-changed', this.handleLanguageChange);
   }
 
   static get styles() {
@@ -216,7 +229,6 @@ export class Table extends LitElement {
     const buttons = [];
     const maxVisiblePages = 5;
     
-    // Previous button
     buttons.push(html`
       <button
         @click=${() => this.handlePageChange(this.currentPage - 1)}
@@ -226,7 +238,6 @@ export class Table extends LitElement {
       </button>
     `);
 
-    // First page
     buttons.push(html`
       <button
         class=${this.currentPage === 1 ? 'active' : ''}
@@ -258,7 +269,6 @@ export class Table extends LitElement {
       buttons.push(html`<span class="ellipsis">...</span>`);
     }
 
-    // Last page
     if (this.totalPages > 1) {
       buttons.push(html`
         <button
@@ -270,7 +280,6 @@ export class Table extends LitElement {
       `);
     }
 
-    // Next button
     buttons.push(html`
       <button
         @click=${() => this.handlePageChange(this.currentPage + 1)}
@@ -296,15 +305,15 @@ export class Table extends LitElement {
                   @change=${this.handleSelectAll}
                 />
               </th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Date of Employment</th>
-              <th>Date of Birth</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th>Department</th>
-              <th>Position</th>
-              <th>Actions</th>
+              <th>${t("first-name")}</th>
+              <th>${t("last-name")}</th>
+              <th>${t("date-of-employment")}</th>
+              <th>${t("date-of-birth")}</th>
+              <th>${t("phone")}</th>
+              <th>${t("email")}</th>
+              <th>${t("department")}</th>
+              <th>${t("position")}</th>
+              <th>${t("actions")}</th>
             </tr>
           </thead>
           <tbody>

@@ -23,6 +23,11 @@ export class Header extends LitElement {
 
     document.documentElement.lang = newLang;
     this.requestUpdate();
+    window.dispatchEvent(new CustomEvent("language-changed", {
+      detail: {
+        language: newLang,
+      },
+    }));
   }
 
   get isTurkish() {
