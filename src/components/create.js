@@ -16,17 +16,23 @@ export class Create extends LitElement {
   }
   render() {
     return html`
-      <div>
-        <span>CREATE</span>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span>ADD NEW EMPLOYEE</span>
         <form @submit=${this.handleSubmit}>
-          <input type="text" name="firstName" placeholder="First Name" />
-          <input type="text" name="lastName" placeholder="Last Name" />
-          <input type="text" name="email" placeholder="Email" />
-          <input type="text" name="phone" placeholder="Phone" />
-          <input type="text" name="department" placeholder="Department" />
-          <input type="text" name="position" placeholder="Position" />
-          <input type="text" name="dateOfEmployment" placeholder="Date of Employment" />
-          <input type="text" name="dateOfBirth" placeholder="Date of Birth" />
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <input type="text" name="firstName" placeholder="First Name" />
+            <input type="text" name="lastName" placeholder="Last Name" />
+            <input type="text" name="email" placeholder="Email" />
+            <input type="text" name="phone" placeholder="Phone" />
+            <input type="text" name="department" placeholder="Department" />
+            <input type="text" name="position" placeholder="Position" />
+            <input
+              type="text"
+              name="dateOfEmployment"
+              placeholder="Date of Employment"
+            />
+            <input type="text" name="dateOfBirth" placeholder="Date of Birth" />
+          </div>
           <button type="submit">Create</button>
         </form>
       </div>

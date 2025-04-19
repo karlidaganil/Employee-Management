@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import "./header";
+import "./header/header";
 import "./table";
 import { useEmployeeStore } from "../store";
 
@@ -23,7 +23,10 @@ export class Home extends LitElement {
     return html`
       <div>
         <header-component></header-component>
-        <table-component .data=${this.employees}></table-component>
+        <h1>Employees</h1>
+        <div style="padding: 0px 20px;">
+          <table-component .data=${this.employees}></table-component>
+        </div>
       </div>
     `;
   }
