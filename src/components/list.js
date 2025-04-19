@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { useEmployeeStore } from "../store";
+import "./modal.js";
 
 export class List extends LitElement {
   static get styles() {
@@ -107,7 +108,6 @@ export class List extends LitElement {
         background: none;
         border: none;
         cursor: pointer;
-        color: #ff6600;
         opacity: 0.7;
         transition: opacity 0.2s ease;
       }
@@ -121,6 +121,8 @@ export class List extends LitElement {
   static get properties() {
     return {
       employees: { type: Array },
+      showDeleteModal: { type: Boolean, state: true },
+      employeeToDelete: { type: Object, state: true },
     };
   }
 
@@ -128,17 +130,17 @@ export class List extends LitElement {
     super();
     this.employees = [];
     this.unsubscribe = null;
+    this.showDeleteModal = false;
+    this.employeeToDelete = null;
   }
 
   connectedCallback() {
     super.connectedCallback();
     // Subscribe to store changes
-    this.unsubscribe = useEmployeeStore.subscribe(
-      (state) => {
-        this.employees = state.employees;
-        this.requestUpdate();
-      }
-    );
+    this.unsubscribe = useEmployeeStore.subscribe((state) => {
+      this.employees = state.employees;
+      this.requestUpdate();
+    });
     // Initialize with current state
     this.employees = useEmployeeStore.getState().employees;
   }
@@ -155,8 +157,22 @@ export class List extends LitElement {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   }
 
-  handleDelete(email) {
-    useEmployeeStore.getState().removeEmployee(email);
+  handleDeleteClick(employee) {
+    this.employeeToDelete = employee;
+    this.showDeleteModal = true;
+  }
+
+  handleDeleteCancel() {
+    this.showDeleteModal = false;
+    this.employeeToDelete = null;
+  }
+
+  handleDeleteConfirm() {
+    if (this.employeeToDelete) {
+      useEmployeeStore.getState().removeEmployee(this.employeeToDelete.email);
+      this.showDeleteModal = false;
+      this.employeeToDelete = null;
+    }
   }
 
   render() {
@@ -197,10 +213,10 @@ export class List extends LitElement {
                 </div>
                 <div class="actions">
                   <button class="action-button" title="Edit">✏️</button>
-                  <button 
-                    class="action-button" 
+                  <button
+                    class="action-button"
                     title="Delete"
-                    @click=${() => this.handleDelete(employee.email)}
+                    @click=${() => this.handleDeleteClick(employee)}
                   >
                     🗑️
                   </button>
@@ -209,6 +225,16 @@ export class List extends LitElement {
             `
           )}
         </div>
+
+        <confirmation-modal
+          ?show=${this.showDeleteModal}
+          title="Are you sure?"
+          message=${this.employeeToDelete
+            ? `Selected Employee record of ${this.employeeToDelete.firstName} ${this.employeeToDelete.lastName} will be deleted`
+            : ''}
+          @cancel=${this.handleDeleteCancel}
+          @proceed=${this.handleDeleteConfirm}
+        ></confirmation-modal>
       </div>
     `;
   }

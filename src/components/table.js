@@ -26,12 +26,12 @@ export class Table extends LitElement {
     this.currentPage = 1;
     this.itemsPerPage = 10;
     this.totalPages = 1;
-    this.lang = document.documentElement.lang || 'en';
+    this.lang = document.documentElement.lang || "en";
     this.deleteEmployee = useEmployeeStore.getState().removeEmployee;
     this.showDeleteModal = false;
     this.employeeToDelete = null;
-    
-    window.addEventListener('language-changed', (e) => {
+
+    window.addEventListener("language-changed", (e) => {
       this.lang = e.detail.language;
       this.requestUpdate();
     });
@@ -39,7 +39,7 @@ export class Table extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    window.removeEventListener('language-changed', this.handleLanguageChange);
+    window.removeEventListener("language-changed", this.handleLanguageChange);
   }
 
   static get styles() {
@@ -183,6 +183,11 @@ export class Table extends LitElement {
       .edit-icon:hover, .delete-icon:hover {
         opacity: 1;
       }
+      .action-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        opacity: 0.7;
     `;
   }
 
@@ -227,7 +232,7 @@ export class Table extends LitElement {
   }
 
   updated(changedProperties) {
-    if (changedProperties.has('data')) {
+    if (changedProperties.has("data")) {
       this.updateTotalPages();
     }
   }
@@ -242,7 +247,7 @@ export class Table extends LitElement {
   renderPaginationButtons() {
     const buttons = [];
     const maxVisiblePages = 5;
-    
+
     buttons.push(html`
       <button
         @click=${() => this.handlePageChange(this.currentPage - 1)}
@@ -254,15 +259,21 @@ export class Table extends LitElement {
 
     buttons.push(html`
       <button
-        class=${this.currentPage === 1 ? 'active' : ''}
+        class=${this.currentPage === 1 ? "active" : ""}
         @click=${() => this.handlePageChange(1)}
       >
         1
       </button>
     `);
 
-    let startPage = Math.max(2, this.currentPage - Math.floor(maxVisiblePages / 2));
-    let endPage = Math.min(this.totalPages - 1, startPage + maxVisiblePages - 1);
+    let startPage = Math.max(
+      2,
+      this.currentPage - Math.floor(maxVisiblePages / 2)
+    );
+    let endPage = Math.min(
+      this.totalPages - 1,
+      startPage + maxVisiblePages - 1
+    );
 
     if (startPage > 2) {
       buttons.push(html`<span class="ellipsis">...</span>`);
@@ -271,7 +282,7 @@ export class Table extends LitElement {
     for (let i = startPage; i <= endPage; i++) {
       buttons.push(html`
         <button
-          class=${this.currentPage === i ? 'active' : ''}
+          class=${this.currentPage === i ? "active" : ""}
           @click=${() => this.handlePageChange(i)}
         >
           ${i}
@@ -286,7 +297,7 @@ export class Table extends LitElement {
     if (this.totalPages > 1) {
       buttons.push(html`
         <button
-          class=${this.currentPage === this.totalPages ? 'active' : ''}
+          class=${this.currentPage === this.totalPages ? "active" : ""}
           @click=${() => this.handlePageChange(this.totalPages)}
         >
           ${this.totalPages}
@@ -389,16 +400,14 @@ export class Table extends LitElement {
               Selected ${this.selectedRows.length} of ${this.data.length} rows
             </p>`
           : ""}
-        <div class="pagination">
-          ${this.renderPaginationButtons()}
-        </div>
+        <div class="pagination">${this.renderPaginationButtons()}</div>
 
         <confirmation-modal
           ?show=${this.showDeleteModal}
           title="Are you sure?"
           message=${this.employeeToDelete
             ? `Selected Employee record of ${this.employeeToDelete.firstName} ${this.employeeToDelete.lastName} will be deleted`
-            : ''}
+            : ""}
           @cancel=${this.handleDeleteCancel}
           @proceed=${this.handleDeleteConfirm}
         ></confirmation-modal>
