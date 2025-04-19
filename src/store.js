@@ -38,9 +38,15 @@ export const useEmployeeStore = createStore(
       ],
       addEmployee: (employee) =>
         set((state) => ({ employees: [...state.employees, employee] })),
+      removeEmployee: (email) =>
+        set((state) => ({
+          employees: state.employees.filter(
+            (employee) => employee.email !== email
+          ),
+        })),
     }),
     {
-      name: 'employee-storage', // unique name for localStorage key
+      name: "employee-storage", // unique name for localStorage key
       storage: createJSONStorage(() => localStorage), // use localStorage
       partialize: (state) => ({ employees: state.employees }), // only persist employees array
     }

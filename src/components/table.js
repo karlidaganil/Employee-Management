@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { t } from "../locales/i18n.js";
+import { useEmployeeStore } from "../store.js";
 
 export class Table extends LitElement {
   static get properties() {
@@ -23,6 +24,7 @@ export class Table extends LitElement {
     this.itemsPerPage = 10;
     this.totalPages = 1;
     this.lang = document.documentElement.lang || 'en';
+    this.deleteEmployee = useEmployeeStore.getState().removeEmployee;
     
     window.addEventListener('language-changed', (e) => {
       this.lang = e.detail.language;
@@ -338,7 +340,7 @@ export class Table extends LitElement {
                   <td>
                     <div class="actions">
                       <span class="edit-icon">✏️</span>
-                      <span class="delete-icon">🗑️</span>
+                      <span class="delete-icon" @click=${() => this.deleteEmployee(row.email)}>🗑️</span>
                     </div>
                   </td>
                 </tr>
