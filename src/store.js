@@ -5,8 +5,8 @@ export const useEmployeeStore = createStore((set) => ({
     {
       firstName: "John",
       lastName: "Doe",
-      dateOfEmployment: "2020-01-01",
-      dateOfBirth: "1990-01-01",
+      dateOfEmployment: "23/04/2025",
+      dateOfBirth: "23/04/1990",
       phone: "1234567890",
       email: "john.doe@example.com",
       department: "Sales",
@@ -15,8 +15,8 @@ export const useEmployeeStore = createStore((set) => ({
     {
       firstName: "Jane",
       lastName: "Doe",
-      dateOfEmployment: "2020-01-01",
-      dateOfBirth: "1995-02-01",
+      dateOfEmployment: "23/04/2025",
+      dateOfBirth: "23/04/1995",
       phone: "1234567890",
       email: "jane.doe@example.com",
       department: "Sales",
@@ -25,8 +25,8 @@ export const useEmployeeStore = createStore((set) => ({
     {
       firstName: "Jim",
       lastName: "Doe",
-      dateOfEmployment: "2020-01-01",
-      dateOfBirth: "1990-01-01",
+      dateOfEmployment: "23/04/2025",
+      dateOfBirth: "23/04/1990",
       phone: "1234567890",
       email: "jim.doe@example.com",
       department: "Sales",
