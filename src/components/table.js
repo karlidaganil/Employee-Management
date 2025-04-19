@@ -253,7 +253,7 @@ export class Table extends LitElement {
         @click=${() => this.handlePageChange(this.currentPage - 1)}
         ?disabled=${this.currentPage === 1}
       >
-        ←
+        <
       </button>
     `);
 
@@ -310,7 +310,7 @@ export class Table extends LitElement {
         @click=${() => this.handlePageChange(this.currentPage + 1)}
         ?disabled=${this.currentPage === this.totalPages}
       >
-        →
+        >
       </button>
     `);
 
