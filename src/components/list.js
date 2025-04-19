@@ -162,7 +162,6 @@ export class List extends LitElement {
   render() {
     return html`
       <div class="container">
-        <h1>Employee List</h1>
         <div class="card-grid">
           ${this.employees.map(
             (employee) => html`
