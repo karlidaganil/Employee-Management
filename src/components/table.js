@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { t } from "../locales/i18n.js";
 import { useEmployeeStore } from "../store.js";
+import "./modal.js";
 
 export class Table extends LitElement {
   static get properties() {
@@ -12,6 +13,8 @@ export class Table extends LitElement {
       itemsPerPage: { type: Number },
       totalPages: { type: Number, state: true },
       lang: { type: String, reflect: true },
+      showDeleteModal: { type: Boolean, state: true },
+      employeeToDelete: { type: Object, state: true },
     };
   }
 
@@ -25,6 +28,8 @@ export class Table extends LitElement {
     this.totalPages = 1;
     this.lang = document.documentElement.lang || 'en';
     this.deleteEmployee = useEmployeeStore.getState().removeEmployee;
+    this.showDeleteModal = false;
+    this.employeeToDelete = null;
     
     window.addEventListener('language-changed', (e) => {
       this.lang = e.detail.language;
@@ -301,6 +306,24 @@ export class Table extends LitElement {
     return buttons;
   }
 
+  handleDeleteClick(employee) {
+    this.employeeToDelete = employee;
+    this.showDeleteModal = true;
+  }
+
+  handleDeleteCancel() {
+    this.showDeleteModal = false;
+    this.employeeToDelete = null;
+  }
+
+  handleDeleteConfirm() {
+    if (this.employeeToDelete) {
+      useEmployeeStore.getState().removeEmployee(this.employeeToDelete.email);
+      this.showDeleteModal = false;
+      this.employeeToDelete = null;
+    }
+  }
+
   render() {
     return html`
       <div>
@@ -346,8 +369,14 @@ export class Table extends LitElement {
                   <td>${row.position}</td>
                   <td>
                     <div class="actions">
-                      <span class="edit-icon">✏️</span>
-                      <span class="delete-icon" @click=${() => this.deleteEmployee(row.email)}>🗑️</span>
+                      <button class="action-button" title="Edit">✏️</button>
+                      <button
+                        class="action-button"
+                        title="Delete"
+                        @click=${() => this.handleDeleteClick(row)}
+                      >
+                        🗑️
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -363,6 +392,16 @@ export class Table extends LitElement {
         <div class="pagination">
           ${this.renderPaginationButtons()}
         </div>
+
+        <confirmation-modal
+          ?show=${this.showDeleteModal}
+          title="Are you sure?"
+          message=${this.employeeToDelete
+            ? `Selected Employee record of ${this.employeeToDelete.firstName} ${this.employeeToDelete.lastName} will be deleted`
+            : ''}
+          @cancel=${this.handleDeleteCancel}
+          @proceed=${this.handleDeleteConfirm}
+        ></confirmation-modal>
       </div>
     `;
   }
