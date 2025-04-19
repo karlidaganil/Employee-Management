@@ -75,6 +75,7 @@ export class Table extends LitElement {
       .pagination button.active {
         background-color: #ff5722;
         color: white;
+        border-radius: 50%;
       }
 
       .pagination button:disabled {
