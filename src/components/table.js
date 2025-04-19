@@ -6,6 +6,9 @@ export class Table extends LitElement {
       data: { type: Array },
       selectedRows: { type: Array, state: true },
       selectAll: { type: Boolean, state: true },
+      currentPage: { type: Number, state: true },
+      itemsPerPage: { type: Number },
+      totalPages: { type: Number, state: true },
     };
   }
 
@@ -14,6 +17,9 @@ export class Table extends LitElement {
     this.data = [];
     this.selectedRows = [];
     this.selectAll = false;
+    this.currentPage = 1;
+    this.itemsPerPage = 10;
+    this.totalPages = 1;
   }
 
   static get styles() {
@@ -44,6 +50,41 @@ export class Table extends LitElement {
         height: 18px;
         cursor: pointer;
       }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        gap: 8px;
+      }
+
+      .pagination button {
+        padding: 8px 12px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: #666;
+        border-radius: 4px;
+      }
+
+      .pagination button:hover {
+        background-color: #f0f0f0;
+      }
+
+      .pagination button.active {
+        background-color: #ff5722;
+        color: white;
+      }
+
+      .pagination button:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+
+      .pagination .ellipsis {
+        padding: 8px 12px;
+      }
     `;
   }
 
@@ -73,6 +114,104 @@ export class Table extends LitElement {
     return this.selectedRows.includes(index);
   }
 
+  getPaginatedData() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    return this.data.slice(start, end);
+  }
+
+  updateTotalPages() {
+    this.totalPages = Math.ceil(this.data.length / this.itemsPerPage);
+  }
+
+  firstUpdated() {
+    this.updateTotalPages();
+  }
+
+  updated(changedProperties) {
+    if (changedProperties.has('data')) {
+      this.updateTotalPages();
+    }
+  }
+
+  handlePageChange(page) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.selectedRows = [];
+    this.selectAll = false;
+  }
+
+  renderPaginationButtons() {
+    const buttons = [];
+    const maxVisiblePages = 5;
+    
+    // Previous button
+    buttons.push(html`
+      <button
+        @click=${() => this.handlePageChange(this.currentPage - 1)}
+        ?disabled=${this.currentPage === 1}
+      >
+        ←
+      </button>
+    `);
+
+    // First page
+    buttons.push(html`
+      <button
+        class=${this.currentPage === 1 ? 'active' : ''}
+        @click=${() => this.handlePageChange(1)}
+      >
+        1
+      </button>
+    `);
+
+    let startPage = Math.max(2, this.currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(this.totalPages - 1, startPage + maxVisiblePages - 1);
+
+    if (startPage > 2) {
+      buttons.push(html`<span class="ellipsis">...</span>`);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(html`
+        <button
+          class=${this.currentPage === i ? 'active' : ''}
+          @click=${() => this.handlePageChange(i)}
+        >
+          ${i}
+        </button>
+      `);
+    }
+
+    if (endPage < this.totalPages - 1) {
+      buttons.push(html`<span class="ellipsis">...</span>`);
+    }
+
+    // Last page
+    if (this.totalPages > 1) {
+      buttons.push(html`
+        <button
+          class=${this.currentPage === this.totalPages ? 'active' : ''}
+          @click=${() => this.handlePageChange(this.totalPages)}
+        >
+          ${this.totalPages}
+        </button>
+      `);
+    }
+
+    // Next button
+    buttons.push(html`
+      <button
+        @click=${() => this.handlePageChange(this.currentPage + 1)}
+        ?disabled=${this.currentPage === this.totalPages}
+      >
+        →
+      </button>
+    `);
+
+    return buttons;
+  }
+
   render() {
     return html`
       <div>
@@ -97,7 +236,7 @@ export class Table extends LitElement {
             </tr>
           </thead>
           <tbody>
-            ${this.data.map(
+            ${this.getPaginatedData().map(
               (row, index) => html`
                 <tr>
                   <td class="checkbox-cell">
@@ -125,6 +264,9 @@ export class Table extends LitElement {
               Selected ${this.selectedRows.length} of ${this.data.length} rows
             </p>`
           : ""}
+        <div class="pagination">
+          ${this.renderPaginationButtons()}
+        </div>
       </div>
     `;
   }
