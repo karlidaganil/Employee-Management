@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit";
+import { t } from "../locales/i18n.js";
 
 export class Modal extends LitElement {
   static get styles() {
@@ -103,14 +104,27 @@ export class Modal extends LitElement {
       show: { type: Boolean },
       title: { type: String },
       message: { type: String },
+      lang: { type: String, reflect: true },
     };
   }
 
   constructor() {
     super();
     this.show = false;
-    this.title = '';
-    this.message = '';
+    this.title = "";
+    this.message = "";
+    this.lang = document.documentElement.lang || "en";
+
+    // Listen for language changes
+    window.addEventListener("language-changed", (e) => {
+      this.lang = e.detail.language;
+      this.requestUpdate();
+    });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener("language-changed", this.handleLanguageChange);
   }
 
   render() {
@@ -123,15 +137,13 @@ export class Modal extends LitElement {
             <h3 class="modal-title">${this.title}</h3>
             <button class="close-button" @click=${this._handleCancel}>✕</button>
           </div>
-          <div class="modal-body">
-            ${this.message}
-          </div>
+          <div class="modal-body">${this.message}</div>
           <div class="modal-footer">
             <button class="btn btn-primary" @click=${this._handleProceed}>
-              Proceed
+              ${t("proceed")}
             </button>
             <button class="btn btn-secondary" @click=${this._handleCancel}>
-              Cancel
+              ${t("cancel")}
             </button>
           </div>
         </div>
@@ -150,12 +162,12 @@ export class Modal extends LitElement {
   }
 
   _handleCancel() {
-    this.dispatchEvent(new CustomEvent('cancel'));
+    this.dispatchEvent(new CustomEvent("cancel"));
   }
 
   _handleProceed() {
-    this.dispatchEvent(new CustomEvent('proceed'));
+    this.dispatchEvent(new CustomEvent("proceed"));
   }
 }
 
-customElements.define('confirmation-modal', Modal); 
+customElements.define("confirmation-modal", Modal);

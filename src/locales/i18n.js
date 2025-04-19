@@ -11,7 +11,12 @@ function getCurrentLang() {
   return locales[lang] ? lang : 'en'; // fallback to English
 }
 
-export function t(key) {
+export function t(key, params = {}) {
   const lang = getCurrentLang();
-  return locales[lang][key] || key;
+  const template = locales[lang]?.[key] || key;
+
+  return template.replace(/\{\{(\w+)\}\}/g, (_, param) => {
+    return params[param] ?? '';
+  });
 }
+

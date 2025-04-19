@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { useEmployeeStore } from "../store";
 import "./modal.js";
+import { t } from "../locales/i18n.js";
 
 export class List extends LitElement {
   static get styles() {
@@ -123,6 +124,7 @@ export class List extends LitElement {
       employees: { type: Array },
       showDeleteModal: { type: Boolean, state: true },
       employeeToDelete: { type: Object, state: true },
+      lang: { type: String, reflect: true },
     };
   }
 
@@ -132,6 +134,13 @@ export class List extends LitElement {
     this.unsubscribe = null;
     this.showDeleteModal = false;
     this.employeeToDelete = null;
+    this.lang = document.documentElement.lang || "en";
+
+    // Listen for language changes
+    window.addEventListener("language-changed", (e) => {
+      this.lang = e.detail.language;
+      this.requestUpdate();
+    });
   }
 
   connectedCallback() {
@@ -147,10 +156,11 @@ export class List extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    // Cleanup subscription
+    // Cleanup subscriptions
     if (this.unsubscribe) {
       this.unsubscribe();
     }
+    window.removeEventListener("language-changed", this.handleLanguageChange);
   }
 
   getInitials(firstName, lastName) {
@@ -195,27 +205,27 @@ export class List extends LitElement {
                 </div>
                 <div class="info-grid">
                   <div class="info-item">
-                    <span class="info-label">Department</span>
+                    <span class="info-label">${t("department")}</span>
                     <span class="info-value">${employee.department}</span>
                   </div>
                   <div class="info-item">
-                    <span class="info-label">Email</span>
+                    <span class="info-label">${t("email")}</span>
                     <span class="info-value">${employee.email}</span>
                   </div>
                   <div class="info-item">
-                    <span class="info-label">Phone</span>
+                    <span class="info-label">${t("phone")}</span>
                     <span class="info-value">${employee.phone}</span>
                   </div>
                   <div class="info-item">
-                    <span class="info-label">Date of Employment</span>
+                    <span class="info-label">${t("date-of-employment")}</span>
                     <span class="info-value">${employee.dateOfEmployment}</span>
                   </div>
                 </div>
                 <div class="actions">
-                  <button class="action-button" title="Edit">✏️</button>
+                  <button class="action-button" title="${t("edit")}">✏️</button>
                   <button
                     class="action-button"
-                    title="Delete"
+                    title="${t("delete")}"
                     @click=${() => this.handleDeleteClick(employee)}
                   >
                     🗑️
@@ -228,10 +238,12 @@ export class List extends LitElement {
 
         <confirmation-modal
           ?show=${this.showDeleteModal}
-          title="Are you sure?"
+          title="${t("are-you-sure")}"
           message=${this.employeeToDelete
-            ? `Selected Employee record of ${this.employeeToDelete.firstName} ${this.employeeToDelete.lastName} will be deleted`
-            : ''}
+            ? t("delete-confirmation", {
+                name: `${this.employeeToDelete.firstName} ${this.employeeToDelete.lastName}`,
+              })
+            : ""}
           @cancel=${this.handleDeleteCancel}
           @proceed=${this.handleDeleteConfirm}
         ></confirmation-modal>

@@ -404,9 +404,11 @@ export class Table extends LitElement {
 
         <confirmation-modal
           ?show=${this.showDeleteModal}
-          title="Are you sure?"
+          title=${t("are-you-sure")}
           message=${this.employeeToDelete
-            ? `Selected Employee record of ${this.employeeToDelete.firstName} ${this.employeeToDelete.lastName} will be deleted`
+            ? t("delete-confirmation", {
+                name: `${this.employeeToDelete.firstName} ${this.employeeToDelete.lastName}`
+              })
             : ""}
           @cancel=${this.handleDeleteCancel}
           @proceed=${this.handleDeleteConfirm}

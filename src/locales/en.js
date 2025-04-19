@@ -10,4 +10,10 @@ export default {
   "date-of-employment": "Date of Employment",
   "position": "Position",
   "actions": "Actions",
+  "are-you-sure": "Are you sure?",
+  "delete": "Delete",
+  "edit": "Edit",
+  "delete-confirmation": "Selected employee record {{name}} will be deleted",
+  "cancel": "Cancel",
+  "proceed": "Proceed"
 };
