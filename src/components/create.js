@@ -196,7 +196,7 @@ export class Create extends LitElement {
             </div>
           </div>
           <button type="submit" class="submit-button">
-            ${t('create-employee')}
+            ${t('add-new')}
           </button>
         </form>
       </div>

@@ -21,4 +21,5 @@ export default {
   "junior": "Yeni Başlayan",
   "medior": "Orta Seviye",
   "senior": "Yüksek Seviye",
+  "add-new-employee": "Yeni Çalışan Ekle",
 };

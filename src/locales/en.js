@@ -20,5 +20,6 @@ export default {
   "tech": "Tech",
   "junior": "Junior",
   "medior": "Medior",
-  "senior": "Senior"
+  "senior": "Senior",
+  "add-new-employee": "Add New Employee"
 };
