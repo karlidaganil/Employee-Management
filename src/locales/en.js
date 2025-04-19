@@ -15,5 +15,10 @@ export default {
   "edit": "Edit",
   "delete-confirmation": "Selected employee record {{name}} will be deleted",
   "cancel": "Cancel",
-  "proceed": "Proceed"
+  "proceed": "Proceed",
+  "analytics": "Analytics",
+  "tech": "Tech",
+  "junior": "Junior",
+  "medior": "Medior",
+  "senior": "Senior"
 };

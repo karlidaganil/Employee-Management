@@ -4,6 +4,20 @@ import { Router } from "@vaadin/router";
 import { t } from "../locales/i18n.js";
 
 export class Create extends LitElement {
+  static get properties() {
+    return {
+      departments: { type: Array },
+      positions: { type: Array },
+    };
+  }
+
+  constructor() {
+    super();
+    this.router = new Router(this);
+    this.departments = ['Analytics', 'Tech'];
+    this.positions = ['Junior', 'Medior', 'Senior'];
+  }
+
   static get styles() {
     return css`
       .container {
@@ -82,6 +96,33 @@ export class Create extends LitElement {
         background-color: #ff5500;
       }
 
+      select {
+        padding: 10px 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #333;
+        transition: all 0.2s ease;
+        background-color: white;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 12px;
+        padding-right: 32px;
+      }
+
+      select:focus {
+        outline: none;
+        border-color: #ff6600;
+        box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.1);
+      }
+
+      select:hover {
+        border-color: #ff6600;
+      }
+
       @media (max-width: 768px) {
         .form-grid {
           grid-template-columns: 1fr;
@@ -93,11 +134,6 @@ export class Create extends LitElement {
         }
       }
     `;
-  }
-
-  constructor() {
-    super();
-    this.router = new Router(this);
   }
 
   handleSubmit(e) {
@@ -132,11 +168,23 @@ export class Create extends LitElement {
             </div>
             <div class="input-group">
               <label class="label">${t('department')}</label>
-              <input type="text" name="department" required />
+              <select name="department" required>
+                ${this.departments.map(
+                  (dept) => html`
+                    <option value=${dept}>${t(`${dept.toLowerCase()}`)}</option>
+                  `
+                )}
+              </select>
             </div>
             <div class="input-group">
               <label class="label">${t('position')}</label>
-              <input type="text" name="position" required />
+              <select name="position" required>
+                ${this.positions.map(
+                  (pos) => html`
+                    <option value=${pos}>${t(`${pos.toLowerCase()}`)}</option>
+                  `
+                )}
+              </select>
             </div>
             <div class="input-group">
               <label class="label">${t('date-of-employment')}</label>

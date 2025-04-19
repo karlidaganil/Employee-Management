@@ -15,5 +15,10 @@ export default {
   "edit": "Düzenle",
   "delete-confirmation": "Seçilen çalışan kaydı {{name}} silinecektir",
   "cancel": "İptal", 
-  "proceed": "Devam Et"
+  "proceed": "Devam Et",
+  "analytics": "Analiz",
+  "tech": "Teknoloji",
+  "junior": "Yeni Başlayan",
+  "medior": "Orta Seviye",
+  "senior": "Yüksek Seviye",
 };
