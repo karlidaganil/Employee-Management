@@ -376,8 +376,8 @@ export class Table extends LitElement {
                   <td>${row.dateOfBirth}</td>
                   <td>${row.phone}</td>
                   <td>${row.email}</td>
-                  <td>${row.department}</td>
-                  <td>${row.position}</td>
+                  <td>${t(row.department.toLowerCase())}</td>
+                  <td>${t(row.position.toLowerCase())}</td>
                   <td>
                     <div class="actions">
                       <button class="action-button" title="Edit">✏️</button>
