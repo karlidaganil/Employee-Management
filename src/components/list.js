@@ -121,7 +121,7 @@ export class List extends LitElement {
 
   static get properties() {
     return {
-      employees: { type: Array },
+      data: { type: Array },
       showDeleteModal: { type: Boolean, state: true },
       employeeToDelete: { type: Object, state: true },
       lang: { type: String, reflect: true },
@@ -130,7 +130,7 @@ export class List extends LitElement {
 
   constructor() {
     super();
-    this.employees = [];
+    this.data = [];
     this.unsubscribe = null;
     this.showDeleteModal = false;
     this.employeeToDelete = null;
@@ -189,7 +189,7 @@ export class List extends LitElement {
     return html`
       <div class="container">
         <div class="card-grid">
-          ${this.employees.map(
+          ${this.data.map(
             (employee) => html`
               <div class="employee-card">
                 <div class="employee-header">
