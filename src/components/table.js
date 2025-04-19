@@ -82,6 +82,8 @@ export class Table extends LitElement {
       .checkbox-cell {
         width: 40px;
         text-align: center;
+        vertical-align: middle;
+        padding: 0;
       }
 
       input[type="checkbox"] {
@@ -94,11 +96,16 @@ export class Table extends LitElement {
         cursor: pointer;
         position: relative;
         transition: all 0.2s ease;
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
       }
 
       input[type="checkbox"]:checked {
-        background-color: #ff5722;
-        border-color: #ff5722;
+        background-color: #ff6600;
+        border-color: #ff6600;
       }
 
       input[type="checkbox"]:checked::after {
