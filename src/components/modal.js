@@ -18,17 +18,17 @@ export class Modal extends LitElement {
 
       .modal-content {
         background: white;
-        padding: 24px;
+        padding: 20px;
         border-radius: 8px;
-        width: 400px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 460px;
+        box-shadow: 0 4px 23px 0 rgba(0, 0, 0, 0.2);
       }
 
       .modal-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
       }
 
       .modal-title {
@@ -41,31 +41,40 @@ export class Modal extends LitElement {
       .close-button {
         background: none;
         border: none;
-        font-size: 24px;
+        font-size: 20px;
+        font-weight: 600;
         cursor: pointer;
-        color: #999;
-        padding: 0;
+        color: #ff6600;
+        padding: 4px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .modal-body {
-        margin-bottom: 24px;
+        margin-bottom: 16px;
         color: #666;
+        font-size: 14px;
+        line-height: 1.5;
       }
 
       .modal-footer {
         display: flex;
-        gap: 12px;
-        justify-content: flex-end;
+        flex-direction: column;
+        gap: 8px;
       }
 
       .btn {
-        padding: 10px 24px;
-        border-radius: 4px;
+        width: 100%;
+        padding: 8px;
+        border-radius: 6px;
         font-size: 14px;
         font-weight: 500;
         cursor: pointer;
         border: none;
         transition: all 0.2s ease;
+        text-align: center;
       }
 
       .btn-primary {
@@ -78,12 +87,13 @@ export class Modal extends LitElement {
       }
 
       .btn-secondary {
-        background-color: #f5f5f5;
+        background-color: white;
         color: #666;
+        outline: 1px solid rgb(26, 24, 24);
       }
 
       .btn-secondary:hover {
-        background-color: #eeeeee;
+        background-color: #f5f5f5;
       }
     `;
   }
@@ -111,17 +121,17 @@ export class Modal extends LitElement {
         <div class="modal-content" @click=${this._stopPropagation}>
           <div class="modal-header">
             <h3 class="modal-title">${this.title}</h3>
-            <button class="close-button" @click=${this._handleCancel}>×</button>
+            <button class="close-button" @click=${this._handleCancel}>✕</button>
           </div>
           <div class="modal-body">
             ${this.message}
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" @click=${this._handleCancel}>
-              Cancel
-            </button>
             <button class="btn btn-primary" @click=${this._handleProceed}>
               Proceed
+            </button>
+            <button class="btn btn-secondary" @click=${this._handleCancel}>
+              Cancel
             </button>
           </div>
         </div>
