@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import "./header/header";
+import "./header";
 import "./table";
 import "./list";
 import { useEmployeeStore } from "../store";
@@ -19,12 +19,13 @@ export class Home extends LitElement {
   constructor() {
     super();
     this.employees = useEmployeeStore.getState().employees;
-    this.viewType = "table";
+    this.viewType = useEmployeeStore.getState().viewType;
     this.searchQuery = "";
     this.filteredEmployees = this.employees;
 
     useEmployeeStore.subscribe((state) => {
       this.employees = state.employees;
+      this.viewType = state.viewType;
       this.filterEmployees();
     });
 
@@ -71,21 +72,23 @@ export class Home extends LitElement {
           <div style="display: flex; gap: 10px;">
             <img
               src=${listIcon}
-              style="width: 20px; height: 20px; cursor: pointer; ${this.viewType === "list"
-                ? "opacity: 1;" 
+              style="width: 20px; height: 20px; cursor: pointer; ${this
+                .viewType === "list"
+                ? "opacity: 1;"
                 : "opacity: 0.5;"}"
               @click=${() => {
-                this.viewType = "list";
+                useEmployeeStore.getState().setViewType("list");
                 this.requestUpdate();
               }}
             />
             <img
               src=${tableIcon}
-              style="width: 20px; height: 20px; cursor: pointer; ${this.viewType === "table"
+              style="width: 20px; height: 20px; cursor: pointer; ${this
+                .viewType === "table"
                 ? "opacity: 1;"
                 : "opacity: 0.5;"}"
               @click=${() => {
-                this.viewType = "table";
+                useEmployeeStore.getState().setViewType("table");
                 this.requestUpdate();
               }}
             />

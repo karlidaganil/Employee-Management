@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 
-import { t } from "../../locales/i18n.js";
+import { t } from "../locales/i18n.js";
 
 export class Header extends LitElement {
   static styles = css`
