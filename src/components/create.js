@@ -14,8 +14,8 @@ export class Create extends LitElement {
   constructor() {
     super();
     this.router = new Router(this);
-    this.departments = ['Analytics', 'Tech'];
-    this.positions = ['Junior', 'Medior', 'Senior'];
+    this.departments = ["Analytics", "Tech"];
+    this.positions = ["Junior", "Medior", "Senior"];
   }
 
   static get styles() {
@@ -139,11 +139,22 @@ export class Create extends LitElement {
   handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const employee = Object.fromEntries(formData);
+    const employee = Object.fromEntries(
+      Array.from(formData).map(([key, value]) => [key, value.trimEnd()])
+    );
 
     const phoneRegex = /^(?:\+90|0)?5\d{9}$/;
-    if (!phoneRegex.test(employee.phone.replace(/\s/g, ''))) {
-      alert(t('invalid-phone-format'));
+    if (!phoneRegex.test(employee.phone.replace(/\s/g, ""))) {
+      alert(t("invalid-phone-format"));
+      return;
+    }
+
+    if (
+      useEmployeeStore
+        .getState()
+        .employees.find((e) => e.email === employee.email)
+    ) {
+      alert(t("employee-already-exists-by-email"));
       return;
     }
 
@@ -154,32 +165,32 @@ export class Create extends LitElement {
   render() {
     return html`
       <div class="container">
-        <h1 class="title">${t('add-new-employee')}</h1>
+        <h1 class="title">${t("add-new-employee")}</h1>
         <form class="form" @submit=${this.handleSubmit}>
           <div class="form-grid">
             <div class="input-group">
-              <label class="label">${t('first-name')}</label>
+              <label class="label">${t("first-name")}</label>
               <input type="text" name="firstName" required />
             </div>
             <div class="input-group">
-              <label class="label">${t('last-name')}</label>
+              <label class="label">${t("last-name")}</label>
               <input type="text" name="lastName" required />
             </div>
             <div class="input-group">
-              <label class="label">${t('email')}</label>
+              <label class="label">${t("email")}</label>
               <input type="email" name="email" required />
             </div>
             <div class="input-group">
-              <label class="label">${t('phone')}</label>
-              <input 
-                type="tel" 
-                name="phone" 
+              <label class="label">${t("phone")}</label>
+              <input
+                type="tel"
+                name="phone"
                 placeholder="05383976177"
-                required 
+                required
               />
             </div>
             <div class="input-group">
-              <label class="label">${t('department')}</label>
+              <label class="label">${t("department")}</label>
               <select name="department" required>
                 ${this.departments.map(
                   (dept) => html`
@@ -189,7 +200,7 @@ export class Create extends LitElement {
               </select>
             </div>
             <div class="input-group">
-              <label class="label">${t('position')}</label>
+              <label class="label">${t("position")}</label>
               <select name="position" required>
                 ${this.positions.map(
                   (pos) => html`
@@ -199,17 +210,15 @@ export class Create extends LitElement {
               </select>
             </div>
             <div class="input-group">
-              <label class="label">${t('date-of-employment')}</label>
+              <label class="label">${t("date-of-employment")}</label>
               <input type="date" name="dateOfEmployment" required />
             </div>
             <div class="input-group">
-              <label class="label">${t('date-of-birth')}</label>
+              <label class="label">${t("date-of-birth")}</label>
               <input type="date" name="dateOfBirth" required />
             </div>
           </div>
-          <button type="submit" class="submit-button">
-            ${t('add-new')}
-          </button>
+          <button type="submit" class="submit-button">${t("add-new")}</button>
         </form>
       </div>
     `;
