@@ -201,13 +201,13 @@ export class List extends LitElement {
                     <h3 class="employee-name">
                       ${employee.firstName} ${employee.lastName}
                     </h3>
-                    <p class="employee-position">${employee.position}</p>
+                    <p class="employee-position">${t(employee.position.toLowerCase())}</p>
                   </div>
                 </div>
                 <div class="info-grid">
                   <div class="info-item">
                     <span class="info-label">${t("department")}</span>
-                    <span class="info-value">${employee.department}</span>
+                    <span class="info-value">${t(employee.department.toLowerCase())}</span>
                   </div>
                   <div class="info-item">
                     <span class="info-label">${t("email")}</span>
