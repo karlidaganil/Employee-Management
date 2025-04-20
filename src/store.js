@@ -4,7 +4,43 @@ import { persist, createJSONStorage } from "zustand/middleware";
 export const useEmployeeStore = createStore(
   persist(
     (set) => ({
-      employees: [],
+      employees: [
+        {
+          id: 1,
+          firstName: "John",
+          lastName: "Doe",
+          dateOfEmployment: "2025-04-20",
+          dateOfBirth: "1990-04-23",
+          phone: "05383976177",
+          email: "john.doe@example.com",
+          department: "Sales",
+          position: "Sales Manager",
+          department:"Analytics",
+          position:"Junior"
+        },
+        {
+          id: 2,
+          firstName: "Jane",
+          lastName: "Doe",
+          dateOfEmployment: "2025-04-20",
+          dateOfBirth: "1995-04-23",
+          phone: "05383976177",
+          email: "jane.doe@example.com",
+          department: "Analytics",
+          position: "Junior",
+        },
+        {
+          id: 3,
+          firstName: "Jim",
+          lastName: "Doe",
+          dateOfEmployment: "2025-04-20",
+          dateOfBirth: "1990-04-23",
+          phone: "05383976177",
+          email: "jim.doe@example.com",
+          department: "Analytics",
+          position: "Junior",
+        },
+      ],
       viewType: "table",
       addEmployee: (employee) => {
         return set((state) => {
@@ -38,7 +74,10 @@ export const useEmployeeStore = createStore(
     {
       name: "employee-storage", // unique name for localStorage key
       storage: createJSONStorage(() => localStorage), // use localStorage
-      partialize: (state) => ({ employees: state.employees, viewType: state.viewType }), // only persist employees array
+      partialize: (state) => ({
+        employees: state.employees,
+        viewType: state.viewType,
+      }), // only persist employees array
     }
   )
 );
