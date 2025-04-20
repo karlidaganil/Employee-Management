@@ -179,7 +179,7 @@ export class List extends LitElement {
 
   handleDeleteConfirm() {
     if (this.employeeToDelete) {
-      useEmployeeStore.getState().removeEmployee(this.employeeToDelete.email);
+      useEmployeeStore.getState().removeEmployee(this.employeeToDelete.id);
       this.showDeleteModal = false;
       this.employeeToDelete = null;
     }

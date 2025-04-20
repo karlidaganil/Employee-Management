@@ -24,4 +24,5 @@ export default {
   "add-new-employee": "Add New Employee",
   "employee-already-exists-by-email": "Employee already exists with this email",
   "invalid-phone-format": "Invalid phone format",
+  "update": "Update",
 };

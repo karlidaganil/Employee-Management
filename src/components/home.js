@@ -39,7 +39,7 @@ export class Home extends LitElement {
       this.filteredEmployees = this.employees;
     } else {
       this.filteredEmployees = this.employees.filter(
-        employee =>
+        (employee) =>
           employee.firstName.toLowerCase().includes(this.searchQuery) ||
           employee.lastName.toLowerCase().includes(this.searchQuery)
       );
@@ -57,8 +57,8 @@ export class Home extends LitElement {
           <h1 style="font-size: 20px; font-weight: 600; margin-top: 25px;">
             Employee List
           </h1>
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="Search By Name"
             style="padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 6px; margin-right: 15px;"
             .value=${this.searchQuery}
@@ -89,8 +89,12 @@ export class Home extends LitElement {
         </div>
         <div style="padding: 0px 20px;">
           ${this.viewType === "list"
-            ? html`<list-component .data=${this.filteredEmployees}></list-component>`
-            : html`<table-component .data=${this.filteredEmployees}></table-component>`}
+            ? html`<list-component
+                .data=${this.filteredEmployees}
+              ></list-component>`
+            : html`<table-component
+                .data=${this.filteredEmployees}
+              ></table-component>`}
         </div>
       </div>
     `;

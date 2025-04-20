@@ -8,4 +8,5 @@ const router = new Router(outlet);
 router.setRoutes([
   { path: "/", component: "home-component" },
   { path: "/create", component: "create-component" },
+  { path: "/edit/:id", component: "create-component" },
 ]);

@@ -2,6 +2,7 @@ import { LitElement, html, css } from "lit";
 import { t } from "../locales/i18n.js";
 import { useEmployeeStore } from "../store.js";
 import "./modal.js";
+import { Router } from "@vaadin/router";
 
 export class Table extends LitElement {
   static get properties() {
@@ -329,7 +330,7 @@ export class Table extends LitElement {
 
   handleDeleteConfirm() {
     if (this.employeeToDelete) {
-      useEmployeeStore.getState().removeEmployee(this.employeeToDelete.email);
+      useEmployeeStore.getState().removeEmployee(this.employeeToDelete.id);
       this.showDeleteModal = false;
       this.employeeToDelete = null;
     }
@@ -380,7 +381,13 @@ export class Table extends LitElement {
                   <td>${t(row.position.toLowerCase())}</td>
                   <td>
                     <div class="actions">
-                      <button class="action-button" title="Edit">✏️</button>
+                      <button
+                        class="action-button"
+                        title="Edit"
+                        @click=${() => Router.go(`/edit/${row.id}`)}
+                      >
+                        ✏️
+                      </button>
                       <button
                         class="action-button"
                         title="Delete"
@@ -407,7 +414,7 @@ export class Table extends LitElement {
           title=${t("are-you-sure")}
           message=${this.employeeToDelete
             ? t("delete-confirmation", {
-                name: `${this.employeeToDelete.firstName} ${this.employeeToDelete.lastName}`
+                name: `${this.employeeToDelete.firstName} ${this.employeeToDelete.lastName}`,
               })
             : ""}
           @cancel=${this.handleDeleteCancel}

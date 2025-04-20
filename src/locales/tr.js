@@ -24,4 +24,5 @@ export default {
   "add-new-employee": "Yeni Çalışan Ekle",
   "employee-already-exists-by-email": "Bu email adresiyle zaten bir çalışan mevcut",
   "invalid-phone-format": "Geçersiz telefon formatı",
+  "update": "Güncelle",
 };

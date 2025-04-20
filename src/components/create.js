@@ -8,6 +8,8 @@ export class Create extends LitElement {
     return {
       departments: { type: Array },
       positions: { type: Array },
+      id: { type: String },
+      employee: { type: Object },
     };
   }
 
@@ -16,6 +18,17 @@ export class Create extends LitElement {
     this.router = new Router(this);
     this.departments = ["Analytics", "Tech"];
     this.positions = ["Junior", "Medior", "Senior"];
+    this.id = "";
+    this.employees = useEmployeeStore.getState().employees;
+
+    useEmployeeStore.subscribe((state) => {
+      this.employees = state.employees;
+    });
+  }
+
+  onBeforeEnter(context) {
+    this.id = context.params.id;
+    this.employee = this.employees.find((e) => e.id === Number(this.id));
   }
 
   static get styles() {
@@ -152,10 +165,18 @@ export class Create extends LitElement {
     if (
       useEmployeeStore
         .getState()
-        .employees.find((e) => e.email === employee.email)
+        .employees.find((e) => e.email === employee.email) &&
+      !this.id
     ) {
       alert(t("employee-already-exists-by-email"));
       return;
+    }
+    if (this.id) {
+      useEmployeeStore
+        .getState()
+        .updateEmployee({ ...employee, id: Number(this.id) });
+    } else {
+      useEmployeeStore.getState().addEmployee(employee);
     }
 
     useEmployeeStore.getState().addEmployee(employee);
@@ -165,20 +186,35 @@ export class Create extends LitElement {
   render() {
     return html`
       <div class="container">
-        <h1 class="title">${t("add-new-employee")}</h1>
+        <h1 class="title">${t("add-new-employee")} ${this.id}</h1>
         <form class="form" @submit=${this.handleSubmit}>
           <div class="form-grid">
             <div class="input-group">
               <label class="label">${t("first-name")}</label>
-              <input type="text" name="firstName" required />
+              <input
+                type="text"
+                name="firstName"
+                required
+                value=${this.employee?.firstName}
+              />
             </div>
             <div class="input-group">
               <label class="label">${t("last-name")}</label>
-              <input type="text" name="lastName" required />
+              <input
+                type="text"
+                name="lastName"
+                required
+                value=${this.employee?.lastName}
+              />
             </div>
             <div class="input-group">
               <label class="label">${t("email")}</label>
-              <input type="email" name="email" required />
+              <input
+                type="email"
+                name="email"
+                required
+                value=${this.employee?.email}
+              />
             </div>
             <div class="input-group">
               <label class="label">${t("phone")}</label>
@@ -187,6 +223,7 @@ export class Create extends LitElement {
                 name="phone"
                 placeholder="05383976177"
                 required
+                value=${this.employee?.phone}
               />
             </div>
             <div class="input-group">
@@ -194,7 +231,12 @@ export class Create extends LitElement {
               <select name="department" required>
                 ${this.departments.map(
                   (dept) => html`
-                    <option value=${dept}>${t(`${dept.toLowerCase()}`)}</option>
+                    <option
+                      ?selected=${this.employee?.department === dept}
+                      value=${dept}
+                    >
+                      ${t(`${dept.toLowerCase()}`)}
+                    </option>
                   `
                 )}
               </select>
@@ -204,21 +246,38 @@ export class Create extends LitElement {
               <select name="position" required>
                 ${this.positions.map(
                   (pos) => html`
-                    <option value=${pos}>${t(`${pos.toLowerCase()}`)}</option>
+                    <option
+                      ?selected=${this.employee?.position === pos}
+                      value=${pos}
+                    >
+                      ${t(`${pos.toLowerCase()}`)}
+                    </option>
                   `
                 )}
               </select>
             </div>
             <div class="input-group">
               <label class="label">${t("date-of-employment")}</label>
-              <input type="date" name="dateOfEmployment" required />
+              <input
+                type="date"
+                name="dateOfEmployment"
+                required
+                value=${this.employee?.dateOfEmployment}
+              />
             </div>
             <div class="input-group">
               <label class="label">${t("date-of-birth")}</label>
-              <input type="date" name="dateOfBirth" required />
+              <input
+                type="date"
+                name="dateOfBirth"
+                required
+                value=${this.employee?.dateOfBirth}
+              />
             </div>
           </div>
-          <button type="submit" class="submit-button">${t("add-new")}</button>
+          <button type="submit" class="submit-button">
+            ${this.id ? t("update") : t("add-new")}
+          </button>
         </form>
       </div>
     `;
