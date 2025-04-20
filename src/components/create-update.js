@@ -185,8 +185,18 @@ export class CreateUpdate extends LitElement {
 
   render() {
     return html`
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiiYxyG6WVw6-HRXV2zvtycJqYRjP3jxtnWQ&s"
+          alt="logo"
+          style="width: 30px; height: 30px; border-radius: 8px; cursor: pointer;"
+          @click=${() => Router.go("/")}
+        />
+      </div>
       <div class="container">
-        <h1 class="title"> ${this.id ? t("edit-employee") : t("add-new-employee")} </h1>
+        <h1 class="title">
+          ${this.id ? t("edit-employee") : t("add-new-employee")}
+        </h1>
         <form class="form" @submit=${this.handleSubmit}>
           <div class="form-grid">
             <div class="input-group">
