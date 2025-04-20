@@ -45,20 +45,39 @@ export class Table extends LitElement {
 
   static get styles() {
     return css`
+      :host {
+        display: block;
+        width: 100%;
+      }
+
+      .table-container {
+        width: 100%;
+        overflow-x: auto;
+        margin: 1rem 0;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
       table {
         width: 100%;
         border-collapse: collapse;
         border-spacing: 0;
-        margin-top: 1rem;
-        background-color: red;
+        background-color: white;
+        min-width: 800px;
+      }
+
+      thead {
+        background-color: #f8f9fa;
       }
 
       thead tr {
         background-color: white;
+        border-bottom: 2px solid #f5f7f9;
       }
 
       tbody tr {
         background-color: white;
+        transition: all 0.2s ease;
       }
 
       tbody tr:not(:last-child) {
@@ -67,36 +86,38 @@ export class Table extends LitElement {
 
       th,
       td {
-        padding: 16px 8px;
+        padding: 1rem;
         text-align: left;
         border: none;
         color: #666;
-        font-size: 14px;
+        font-size: 0.875rem;
+        white-space: nowrap;
       }
 
       th {
         font-weight: 600;
         color: #ff6600;
         background: none;
+        position: sticky;
+        top: 0;
+        z-index: 1;
       }
 
       tr:hover {
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        background-color: #f8f9fa;
       }
 
       .checkbox-cell {
         width: 40px;
         text-align: center;
-        vertical-align: middle;
-        padding: 0;
+        padding: 0 0.5rem;
       }
 
       input[type="checkbox"] {
         appearance: none;
         -webkit-appearance: none;
-        width: 18px;
-        height: 18px;
+        width: 1.125rem;
+        height: 1.125rem;
         border: 2px solid #ddd;
         border-radius: 4px;
         cursor: pointer;
@@ -115,7 +136,7 @@ export class Table extends LitElement {
       }
 
       input[type="checkbox"]:checked::after {
-        content: '';
+        content: "";
         position: absolute;
         left: 5px;
         top: 2px;
@@ -130,22 +151,24 @@ export class Table extends LitElement {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 20px;
-        gap: 8px;
+        margin: 1.25rem 0;
+        gap: 0.5rem;
+        flex-wrap: wrap;
       }
 
       .pagination button {
-        padding: 8px 12px;
+        padding: 0.5rem 0.75rem;
         border: none;
         background: none;
         cursor: pointer;
         color: #666;
         border-radius: 4px;
-        min-width: 32px;
-        height: 32px;
+        min-width: 2rem;
+        height: 2rem;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: all 0.2s ease;
       }
 
       .pagination button:hover {
@@ -153,7 +176,7 @@ export class Table extends LitElement {
       }
 
       .pagination button.active {
-        background-color: #ff5722;
+        background-color: #ff6600;
         color: white;
         border-radius: 50%;
       }
@@ -164,31 +187,55 @@ export class Table extends LitElement {
       }
 
       .pagination .ellipsis {
-        padding: 8px 12px;
+        padding: 0.5rem 0.75rem;
         color: #666;
       }
 
       .actions {
         display: flex;
-        gap: 8px;
+        gap: 0.5rem;
         align-items: center;
+        justify-content: flex-start;
       }
 
-      .edit-icon, .delete-icon {
-        cursor: pointer;
-        color: #ff5722;
-        opacity: 0.7;
-        transition: opacity 0.2s ease;
-      }
-
-      .edit-icon:hover, .delete-icon:hover {
-        opacity: 1;
-      }
       .action-button {
         background: none;
         border: none;
         cursor: pointer;
-        opacity: 0.7;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .action-button:hover {
+        background-color: #f0f0f0;
+      }
+
+      @media (max-width: 768px) {
+        .table-container {
+          margin: 0.5rem 0;
+          border-radius: 8px;
+        }
+
+        th,
+        td {
+          padding: 0.75rem 0.5rem;
+          font-size: 0.813rem;
+        }
+
+        .pagination {
+          margin: 1rem 0;
+        }
+
+        .pagination button {
+          padding: 0.375rem 0.5rem;
+          min-width: 1.75rem;
+          height: 1.75rem;
+        }
+      }
     `;
   }
 
@@ -338,7 +385,7 @@ export class Table extends LitElement {
 
   render() {
     return html`
-      <div>
+      <div class="table-container">
         <table>
           <thead>
             <tr>
@@ -402,25 +449,25 @@ export class Table extends LitElement {
             )}
           </tbody>
         </table>
-        ${this.selectedRows.length > 0
-          ? html`<p>
-              Selected ${this.selectedRows.length} of ${this.data.length} rows
-            </p>`
-          : ""}
-        <div class="pagination">${this.renderPaginationButtons()}</div>
-
-        <confirmation-modal
-          ?show=${this.showDeleteModal}
-          title=${t("are-you-sure")}
-          message=${this.employeeToDelete
-            ? t("delete-confirmation", {
-                name: `${this.employeeToDelete.firstName} ${this.employeeToDelete.lastName}`,
-              })
-            : ""}
-          @cancel=${this.handleDeleteCancel}
-          @proceed=${this.handleDeleteConfirm}
-        ></confirmation-modal>
       </div>
+      ${this.selectedRows.length > 0
+        ? html`<p>
+            Selected ${this.selectedRows.length} of ${this.data.length} rows
+          </p>`
+        : ""}
+      <div class="pagination">${this.renderPaginationButtons()}</div>
+
+      <confirmation-modal
+        ?show=${this.showDeleteModal}
+        title=${t("are-you-sure")}
+        message=${this.employeeToDelete
+          ? t("delete-confirmation", {
+              name: `${this.employeeToDelete.firstName} ${this.employeeToDelete.lastName}`,
+            })
+          : ""}
+        @cancel=${this.handleDeleteCancel}
+        @proceed=${this.handleDeleteConfirm}
+      ></confirmation-modal>
     `;
   }
 }
