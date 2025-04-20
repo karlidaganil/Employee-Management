@@ -1,9 +1,9 @@
 import { LitElement, html, css } from "lit";
-import { useEmployeeStore } from "../store";
+import { useEmployeeStore } from "../store.js";
 import { Router } from "@vaadin/router";
 import { t } from "../locales/i18n.js";
 
-export class Create extends LitElement {
+export class CreateUpdate extends LitElement {
   static get properties() {
     return {
       departments: { type: Array },
@@ -284,4 +284,4 @@ export class Create extends LitElement {
   }
 }
 
-customElements.define("create-component", Create);
+customElements.define("create-update-component", CreateUpdate);
