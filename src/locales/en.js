@@ -27,4 +27,5 @@ export default {
   "update": "Update",
   "employee-list": "Employee List",
   "edit-employee": "Edit Employee",
+  "search-by-name": "Search by Name",
 };

@@ -63,7 +63,7 @@ export class Home extends LitElement {
           </h1>
           <input
             type="text"
-            placeholder="Search By Name"
+            placeholder=${t("search-by-name")}
             style="padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 6px; margin-right: 15px;"
             .value=${this.searchQuery}
             @input=${this.handleSearch}

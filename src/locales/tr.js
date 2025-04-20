@@ -27,4 +27,5 @@ export default {
   "update": "Güncelle",
   "employee-list": "Çalışan Listesi",
   "edit-employee": "Çalışanı Düzenle",
+  "search-by-name": "İsim'e Göre Ara",
 };
