@@ -1,0 +1,2 @@
+-First upload node modules by "npm install" or "yarn"
+-Start the project by "npm dev" or "yarn dev"
