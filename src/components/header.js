@@ -63,7 +63,7 @@ export class Header extends LitElement {
             src=${this.isTurkish
               ? "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Flag_of_Turkey_%28physical_colors%29.svg/270px-Flag_of_Turkey_%28physical_colors%29.svg.png"
               : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1200px-Flag_of_the_United_Kingdom_%283-5%29.svg.png"}
-            style="width: 30px; height: 25px; border-radius: 8px;"
+            style="width: 30px; height: 25px; border-radius: 8px; cursor: pointer;"
           />
         </div>
       </header>
