@@ -68,11 +68,11 @@ export class Home extends LitElement {
             .value=${this.searchQuery}
             @input=${this.handleSearch}
           />
-          <div style="display: flex; gap: 10px; cursor: pointer;">
+          <div style="display: flex; gap: 10px;">
             <img
               src=${listIcon}
-              style="width: 20px; height: 20px; ${this.viewType === "list"
-                ? "opacity: 1;"
+              style="width: 20px; height: 20px; cursor: pointer; ${this.viewType === "list"
+                ? "opacity: 1;" 
                 : "opacity: 0.5;"}"
               @click=${() => {
                 this.viewType = "list";
@@ -81,7 +81,7 @@ export class Home extends LitElement {
             />
             <img
               src=${tableIcon}
-              style="width: 20px; height: 20px; ${this.viewType === "table"
+              style="width: 20px; height: 20px; cursor: pointer; ${this.viewType === "table"
                 ? "opacity: 1;"
                 : "opacity: 0.5;"}"
               @click=${() => {
