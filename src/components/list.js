@@ -2,6 +2,7 @@ import { LitElement, html, css } from "lit";
 import { useEmployeeStore } from "../store";
 import "./modal.js";
 import { t } from "../locales/i18n.js";
+import { Router } from "@vaadin/router";
 
 export class List extends LitElement {
   static get styles() {
@@ -222,7 +223,13 @@ export class List extends LitElement {
                   </div>
                 </div>
                 <div class="actions">
-                  <button class="action-button" title="${t("edit")}">✏️</button>
+                  <button
+                    class="action-button"
+                    title="${t("edit")}"
+                    @click=${() => Router.go(`/edit/${employee.id}`)}
+                  >
+                    ✏️
+                  </button>
                   <button
                     class="action-button"
                     title="${t("delete")}"

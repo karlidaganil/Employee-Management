@@ -186,7 +186,7 @@ export class Create extends LitElement {
   render() {
     return html`
       <div class="container">
-        <h1 class="title">${t("add-new-employee")} ${this.id}</h1>
+        <h1 class="title"> ${this.id ? t("edit-employee") : t("add-new-employee")} </h1>
         <form class="form" @submit=${this.handleSubmit}>
           <div class="form-grid">
             <div class="input-group">

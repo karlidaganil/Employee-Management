@@ -25,4 +25,6 @@ export default {
   "employee-already-exists-by-email": "Bu email adresiyle zaten bir çalışan mevcut",
   "invalid-phone-format": "Geçersiz telefon formatı",
   "update": "Güncelle",
+  "employee-list": "Çalışan Listesi",
+  "edit-employee": "Çalışanı Düzenle",
 };

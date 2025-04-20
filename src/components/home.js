@@ -5,7 +5,7 @@ import "./list";
 import { useEmployeeStore } from "../store";
 import listIcon from "../assets/list-icon.png";
 import tableIcon from "../assets/table-icon.png";
-
+import { t } from "../locales/i18n";
 export class Home extends LitElement {
   static get properties() {
     return {
@@ -26,6 +26,10 @@ export class Home extends LitElement {
     useEmployeeStore.subscribe((state) => {
       this.employees = state.employees;
       this.filterEmployees();
+    });
+
+    window.addEventListener("language-changed", (e) => {
+      this.requestUpdate();
     });
   }
 
@@ -55,7 +59,7 @@ export class Home extends LitElement {
           style="display: flex; justify-content: space-between; align-items: center; padding: 0px 20px; color: #FF6600;"
         >
           <h1 style="font-size: 20px; font-weight: 600; margin-top: 25px;">
-            Employee List
+            ${t("employee-list")}
           </h1>
           <input
             type="text"
